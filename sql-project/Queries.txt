@@ -1,0 +1,30 @@
+------------------------------------------------------QUERY 1------------------------------------------------------
+SELECT Genre.name, COUNT(Track.trackid) AS Num_of_Sold_Tracks
+FROM Genre
+JOIN Track ON Genre.genreid = Track.genreid
+JOIN InvoiceLine ON InvoiceLine.trackid = InvoiceLine.trackid
+GROUP BY Genre.name
+ORDER BY Num_of_Sold_Tracks DESC;
+
+------------------------------------------------------QUERY 2------------------------------------------------------
+SELECT MediaType.Name, COUNT(*) AS Num_of_Invoices
+FROM MediaType
+JOIN Track ON Track.MediaTypeId = MediaType.MediaTypeId
+JOIN InvoiceLine ON InvoiceLine.TrackId = Track.TrackId
+GROUP BY 1
+ORDER BY 2 DESC;
+
+------------------------------------------------------QUERY 3------------------------------------------------------
+SELECT Artist.Name, COUNT(DISTINCT Album.Title) AS Num_of_Albums
+FROM Album
+JOIN Artist ON Artist.ArtistId = Album.ArtistId
+GROUP BY 1
+ORDER BY 2 DESC;
+
+------------------------------------------------------QUERY 4------------------------------------------------------
+SELECT I.BillingCountry AS Country, SUM(IL.UnitPrice * IL.Quantity) AS Total_Sales, COUNT(DISTINCT I.InvoiceId) AS Num_of_Invoices
+FROM Invoice AS I
+JOIN InvoiceLine AS IL ON I.InvoiceId = IL.InvoiceId
+JOIN Track ON Track.TrackId = IL.TrackId
+GROUP BY 1
+ORDER BY 2 DESC;
